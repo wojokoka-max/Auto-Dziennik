@@ -1,0 +1,1267 @@
+/* ============================================================
+   AutoDziennik — system projektowy „nocny garaż"
+   Grafit deski rozdzielczej, bursztyn lampek kontrolnych,
+   cyfry licznika w monospace. Premium książka serwisowa,
+   nie program księgowy.
+   ============================================================ */
+
+:root {
+  --bg: #121417;
+  --bg-soft: #16181c;
+  --panel: #1a1d22;
+  --panel-2: #20242a;
+  --line: #2c3138;
+  --line-soft: #24282e;
+  --ink: #ece9e2;
+  --muted: #9aa0a8;
+  --amber: #f2a33c;
+  --amber-soft: rgba(242, 163, 60, 0.14);
+  --amber-ink: #1a1207;
+  --ok: #5fb984;
+  --ok-soft: rgba(95, 185, 132, 0.14);
+  --bad: #e4574f;
+  --bad-soft: rgba(228, 87, 79, 0.14);
+  --info: #7fb4d9;
+  --info-soft: rgba(127, 180, 217, 0.14);
+  --radius: 14px;
+  --radius-sm: 9px;
+  --sans: var(--font-sans), system-ui, sans-serif;
+  --mono: var(--font-mono), ui-monospace, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  background-image: radial-gradient(1100px 480px at 70% -180px, rgba(242, 163, 60, 0.06), transparent 65%);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--amber);
+}
+
+.wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 18px 80px;
+}
+
+/* ------------------------------ Nagłówek ------------------------------ */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 0 14px;
+  flex-wrap: wrap;
+}
+
+.logo {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.logo-mark {
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  color: var(--amber-ink);
+  background: var(--amber);
+  border-radius: 7px;
+  padding: 4px 8px;
+}
+
+.logo-name {
+  font-weight: 700;
+  font-size: 19px;
+  letter-spacing: -0.01em;
+}
+
+.logo-name em {
+  font-style: normal;
+  color: var(--amber);
+}
+
+.topbar-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tagline {
+  color: var(--muted);
+  margin: 0 0 22px;
+  max-width: 60ch;
+}
+
+/* ------------------------------ Przyciski ------------------------------ */
+
+.btn {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  color: var(--ink);
+  padding: 9px 14px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, transform 0.05s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn:hover {
+  border-color: var(--amber);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+.entry-btn:focus-visible,
+.road-card:focus-visible,
+.alert-btn:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 2px;
+}
+
+.btn-amber {
+  background: var(--amber);
+  border-color: var(--amber);
+  color: var(--amber-ink);
+}
+
+.btn-amber:hover {
+  filter: brightness(1.06);
+}
+
+.btn-ghost {
+  background: transparent;
+}
+
+.btn-sm {
+  padding: 5px 10px;
+  font-size: 13px;
+}
+
+.btn.danger {
+  color: var(--bad);
+}
+
+.file-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.file-btn input[type='file'] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* ------------------------------ Panele ------------------------------ */
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-bottom: 16px;
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.panel-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.panel-title::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--amber);
+  display: inline-block;
+  flex: none;
+}
+
+.panel-subtitle {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin: 20px 0 10px;
+}
+
+.panel-subtitle .count {
+  font-family: var(--mono);
+  color: var(--amber);
+}
+
+.empty {
+  color: var(--muted);
+  border: 1px dashed var(--line);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  margin: 6px 0 0;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 13.5px;
+  margin: 4px 0 12px;
+}
+
+/* ------------------------------ Formularze ------------------------------ */
+
+input,
+select,
+textarea {
+  font-family: var(--sans);
+  font-size: 14.5px;
+  color: var(--ink);
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 9px 11px;
+  width: 100%;
+}
+
+textarea {
+  resize: vertical;
+}
+
+input[type='date'] {
+  font-family: var(--mono);
+  font-size: 13.5px;
+}
+
+input[type='checkbox'] {
+  width: auto;
+  accent-color: var(--amber);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 12px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.form-grid.panel {
+  background: var(--panel-2);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.field-full {
+  grid-column: 1 / -1;
+}
+
+.field-label {
+  font-size: 12.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.field-label em {
+  font-style: normal;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--muted);
+  opacity: 0.8;
+}
+
+.field-check {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13.5px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.parts-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.parts-row {
+  display: grid;
+  grid-template-columns: 2fr 1.2fr 1.2fr 0.9fr auto;
+  gap: 6px;
+  width: 100%;
+}
+
+/* ------------------------------ Wpisy list ------------------------------ */
+
+.entry-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.entry {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--panel-2);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  flex-wrap: wrap;
+}
+
+.entry-hit {
+  border-color: var(--amber);
+  box-shadow: 0 0 0 1px var(--amber);
+}
+
+.entry-main {
+  min-width: 0;
+  flex: 1 1 260px;
+}
+
+.entry-title {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.entry-meta {
+  display: flex;
+  gap: 6px 14px;
+  flex-wrap: wrap;
+  color: var(--muted);
+  font-size: 13px;
+  font-family: var(--mono);
+  margin-top: 3px;
+}
+
+.entry-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  flex: none;
+}
+
+.entry-actions {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.entry-btn {
+  all: unset;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+}
+
+.entry-parts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.part-chip {
+  font-size: 12.5px;
+  font-family: var(--mono);
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 2px 8px;
+}
+
+.entry-link {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 13px;
+}
+
+/* ------------------------------ Chipy statusów ------------------------------ */
+
+.chip {
+  font-size: 12.5px;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 4px 11px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--muted);
+  width: auto;
+}
+
+select.chip {
+  appearance: none;
+  cursor: pointer;
+  padding-right: 22px;
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: calc(100% - 13px) 55%, calc(100% - 9px) 55%;
+  background-size: 4px 4px;
+  background-repeat: no-repeat;
+}
+
+.chip-ok {
+  color: var(--ok);
+  background: var(--ok-soft);
+  border-color: transparent;
+}
+
+.chip-warn {
+  color: var(--amber);
+  background: var(--amber-soft);
+  border-color: transparent;
+}
+
+.chip-bad {
+  color: var(--bad);
+  background: var(--bad-soft);
+  border-color: transparent;
+}
+
+.chip-info {
+  color: var(--info);
+  background: var(--info-soft);
+  border-color: transparent;
+}
+
+.chip-muted {
+  color: var(--muted);
+}
+
+/* ------------------------------ Garaż ------------------------------ */
+
+.garage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.veh-card {
+  background: var(--panel);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.15s, transform 0.15s;
+}
+
+.veh-card:hover {
+  border-color: var(--amber);
+  transform: translateY(-2px);
+}
+
+.veh-photo {
+  height: 150px;
+  background: linear-gradient(160deg, var(--panel-2), var(--bg-soft));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--line);
+  font-size: 42px;
+  overflow: hidden;
+}
+
+.veh-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.veh-body {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.veh-name {
+  font-weight: 700;
+  font-size: 17px;
+}
+
+.veh-sub {
+  color: var(--muted);
+  font-size: 13px;
+  font-family: var(--mono);
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.veh-flags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.veh-photo-preview {
+  max-width: 100%;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+}
+
+/* ------------------------------ Licznik (odo) ------------------------------ */
+
+.odo {
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 30px;
+  letter-spacing: 0.14em;
+  color: var(--ink);
+  background: #0c0e10;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 6px 14px;
+  display: inline-block;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.55);
+}
+
+.odo-sm {
+  font-size: 15px;
+  padding: 3px 9px;
+  letter-spacing: 0.1em;
+}
+
+/* ------------------------------ Panel pojazdu ------------------------------ */
+
+.veh-header {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 6px 0 14px;
+}
+
+.veh-header-photo {
+  width: 92px;
+  height: 64px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+}
+
+.veh-header h1 {
+  margin: 0;
+  font-size: 24px;
+  letter-spacing: -0.01em;
+}
+
+.veh-header .veh-sub {
+  margin-top: 3px;
+}
+
+.veh-header-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.archived-banner {
+  background: var(--info-soft);
+  color: var(--info);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  font-size: 14px;
+}
+
+.tabs {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  margin-bottom: 14px;
+  scrollbar-width: thin;
+}
+
+.tab {
+  flex: none;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  padding: 7px 14px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.tab:hover {
+  color: var(--ink);
+  border-color: var(--line);
+}
+
+.tab-on {
+  color: var(--amber-ink);
+  background: var(--amber);
+  border-color: var(--amber);
+}
+
+/* ------------------------------ Dashboard ------------------------------ */
+
+.dash-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.dash-grid-3 {
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 0;
+}
+
+.stat-label {
+  font-size: 12.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.stat-value {
+  font-family: var(--mono);
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.stat-unit {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.stat-click {
+  cursor: pointer;
+}
+
+.stat-click:hover {
+  border-color: var(--amber);
+}
+
+.km-edit {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.km-edit input {
+  font-family: var(--mono);
+  font-size: 13px;
+}
+
+.verdict {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.verdict-lamp {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+}
+
+.verdict-ok .verdict-lamp {
+  background: var(--ok);
+  box-shadow: 0 0 18px var(--ok);
+}
+
+.verdict-warn .verdict-lamp {
+  background: var(--amber);
+  box-shadow: 0 0 18px var(--amber);
+}
+
+.verdict-bad .verdict-lamp {
+  background: var(--bad);
+  box-shadow: 0 0 18px var(--bad);
+}
+
+.verdict-title {
+  margin: 0;
+  font-size: 19px;
+}
+
+.verdict-sub {
+  margin: 3px 0 0;
+  color: var(--muted);
+}
+
+.alert-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.alert {
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+}
+
+.alert-btn {
+  all: unset;
+  display: block;
+  width: 100%;
+  padding: 10px 13px;
+  cursor: pointer;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.alert-bad {
+  background: var(--bad-soft);
+  color: var(--bad);
+}
+
+.alert-warn {
+  background: var(--amber-soft);
+  color: var(--amber);
+}
+
+.alert-ok {
+  background: var(--ok-soft);
+  color: var(--ok);
+}
+
+/* ------------------------------ Oś czasu (droga) ------------------------------ */
+
+.road {
+  position: relative;
+  margin-left: 10px;
+  padding-left: 34px;
+}
+
+.road::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 4px;
+  bottom: 4px;
+  width: 8px;
+  border-radius: 4px;
+  background: var(--line-soft);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0 12px,
+    rgba(236, 233, 226, 0.35) 12px 22px
+  );
+  background-size: 2px 100%;
+  background-position: 3px 0;
+  background-repeat: repeat-y;
+}
+
+.road-year {
+  font-family: var(--mono);
+  font-weight: 600;
+  color: var(--amber);
+  letter-spacing: 0.12em;
+  margin: 18px 0 10px;
+}
+
+.road-item {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.road-dot {
+  position: absolute;
+  left: -30px;
+  top: 18px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--bg);
+}
+
+.dot-ok {
+  background: var(--ok);
+}
+
+.dot-warn {
+  background: var(--amber);
+}
+
+.dot-bad {
+  background: var(--bad);
+}
+
+.dot-info {
+  background: var(--info);
+}
+
+.dot-muted {
+  background: var(--muted);
+}
+
+.road-card {
+  all: unset;
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  background: var(--panel-2);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-sm);
+  padding: 11px 14px;
+  cursor: pointer;
+}
+
+.road-card:hover {
+  border-color: var(--amber);
+}
+
+.road-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.road-date {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.road-title {
+  font-weight: 600;
+}
+
+.road-meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+.road-amount {
+  font-family: var(--mono);
+  color: var(--amber);
+}
+
+/* ------------------------------ Koszty ------------------------------ */
+
+.cost-cats {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.cost-cat-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.cost-cat-head strong {
+  font-family: var(--mono);
+  font-weight: 600;
+}
+
+.bar {
+  height: 8px;
+  border-radius: 4px;
+  background: var(--bg-soft);
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--amber), #f7c069);
+  border-radius: 4px;
+}
+
+.cost-total {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line-soft);
+  color: var(--muted);
+}
+
+.cost-total strong {
+  color: var(--ink);
+  font-family: var(--mono);
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.table th,
+.table td {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line-soft);
+  white-space: nowrap;
+}
+
+.table th {
+  color: var(--muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.table .num {
+  font-family: var(--mono);
+  text-align: right;
+}
+
+.table-sum td {
+  border-top: 2px solid var(--line);
+  color: var(--amber);
+}
+
+/* ------------------------------ Planer ------------------------------ */
+
+.seg {
+  display: flex;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.seg-btn {
+  background: transparent;
+  border: 0;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 7px 13px;
+  cursor: pointer;
+}
+
+.seg-on {
+  background: var(--amber);
+  color: var(--amber-ink);
+}
+
+/* ------------------------------ Pliki / galeria ------------------------------ */
+
+.upload-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.upload-row select {
+  max-width: 260px;
+}
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.photo-card {
+  margin: 0;
+  background: var(--panel-2);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.photo-card img {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  display: block;
+}
+
+.photo-card figcaption {
+  padding: 9px 11px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.photo-name {
+  font-size: 13.5px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.photo-meta {
+  font-size: 12px;
+  color: var(--muted);
+  font-family: var(--mono);
+}
+
+.photo-actions {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.doc-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.doc-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--panel-2);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-sm);
+  padding: 11px 13px;
+  flex-wrap: wrap;
+}
+
+.doc-ext {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--amber);
+  border: 1px solid var(--amber);
+  border-radius: 5px;
+  padding: 3px 6px;
+  flex: none;
+}
+
+.doc-main {
+  flex: 1;
+  min-width: 160px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* ------------------------------ Szukaj ------------------------------ */
+
+.search-input {
+  font-size: 16px;
+  padding: 12px 14px;
+}
+
+.search-group {
+  margin-top: 6px;
+}
+
+/* ------------------------------ Raport (druk) ------------------------------ */
+
+.report {
+  background: #fff;
+  color: #17181a;
+  min-height: 100vh;
+  font-family: var(--sans);
+}
+
+.report .wrap {
+  padding-top: 24px;
+}
+
+.report h1 {
+  font-size: 26px;
+  margin: 0 0 2px;
+}
+
+.report h2 {
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-bottom: 2px solid #17181a;
+  padding-bottom: 5px;
+  margin: 28px 0 10px;
+}
+
+.report table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.report th,
+.report td {
+  text-align: left;
+  padding: 6px 8px;
+  border-bottom: 1px solid #d8d5cf;
+  vertical-align: top;
+}
+
+.report th {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6b6b6b;
+}
+
+.report .r-muted {
+  color: #6b6b6b;
+}
+
+.report .r-sub {
+  color: #6b6b6b;
+  margin: 0 0 4px;
+}
+
+.report .r-photos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+}
+
+.report .r-photos img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.report .no-print {
+  display: flex;
+  gap: 8px;
+  margin: 14px 0 6px;
+}
+
+.report .btn {
+  background: #17181a;
+  border-color: #17181a;
+  color: #fff;
+}
+
+.report .btn-ghost {
+  background: transparent;
+  color: #17181a;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  .report {
+    font-size: 12px;
+  }
+  body {
+    background: #fff;
+  }
+}
+
+/* ------------------------------ Drobiazgi ------------------------------ */
+
+.footer-note {
+  color: var(--muted);
+  font-size: 12.5px;
+  margin-top: 26px;
+  border-top: 1px solid var(--line-soft);
+  padding-top: 14px;
+}
+
+.import-input {
+  display: none;
+}
+
+@media (max-width: 560px) {
+  .parts-row {
+    grid-template-columns: 1fr 1fr;
+  }
+  .odo {
+    font-size: 24px;
+  }
+  .veh-header-actions {
+    margin-left: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
